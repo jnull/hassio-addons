@@ -36,11 +36,13 @@ options:
   influxDB:
     enabled: true
     url: http://a0d7b954-influxdb:8086
+    username: user
+    password: password
     db: telegraf
   kernel:
-    enabled: true
+    enabled: false
   swap:
-    enabled: true
+    enabled: false
   docker:
     enabled: false
     timeout: 5s
@@ -69,9 +71,9 @@ options:
   collectd:
     enabled: true
     port: "25826"
-    auth_file: ""
-    security_level: ""
-    types_db: ""
+    auth_file: "/share/auth_file"
+    security_level: "none"
+    types_db: "/etc/telegraf/types.db"
 schema:
   custom_conf:
     enabled: bool
