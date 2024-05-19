@@ -1,5 +1,5 @@
 name: Telegraf
-version: 1.0.14
+version: 1.0.15
 slug: hassio_telegraf
 description: Telegraf open source data collector
 url: https://github.com/jnull/hassio-telegraf
@@ -36,9 +36,10 @@ options:
   influxDB:
     enabled: true
     url: http://a0d7b954-influxdb:8086
-    username: user
+    username: telegraf
     password: password
     db: telegraf
+    retention_policy: autogen
   kernel:
     enabled: false
   swap:
