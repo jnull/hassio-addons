@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile telegraf_addon flags=(attach_disconnected,mediate_deleted) {
+profile hassio_telegraf flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   capability,
@@ -36,6 +36,7 @@ profile telegraf_addon flags=(attach_disconnected,mediate_deleted) {
   /etc/services.d/** rwix,
   /etc/cont-init.d/** rwix,
   /etc/cont-finish.d/** rwix,
+  /etc/telegraf/** rwix,
   /init rix,
   /var/run/** mrwkl,
   /var/run/ mrwkl,
@@ -49,6 +50,8 @@ profile telegraf_addon flags=(attach_disconnected,mediate_deleted) {
 
   # Data access
   /data/** rw,
+  /share/** rw,
+  /ssl/** rw,
 
   # suppress ptrace denials when using 'docker ps' or using 'ps' inside a container
   ptrace (trace,read) peer=docker-default,
