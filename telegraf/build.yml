@@ -1,0 +1,19 @@
+image: "ghcr.io/jnull/{arch}-telegraf"
+build_from:
+  aarch64: "ghcr.io/hassio-addons/debian-base/aarch64:7.3.3"
+  amd64: "ghcr.io/hassio-addons/debian-base/amd64:7.3.3"
+  armv7: "ghcr.io/hassio-addons/debian-base/armv7:7.3.3"
+  i386: "ghcr.io/hassio-addons/debian-base/i386:7.3.3"
+args:
+  TELEGRAF_VERSION: 1.30.2-1
+labels:
+  io.hass.name: "Telegraf"
+  io.hass.description: "Telegraf open source data collector"
+  io.hass.arch:
+    - armhf
+    - armv7
+    - aarch64
+    - amd64
+    - i386
+  io.hass.type: "addon"
+  io.hass.version: 1.0.6
