@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:7.3.3
+ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:7.8.1
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -11,11 +11,11 @@ ARG TELEGRAF_VERSION="1.30.2-1"
 RUN \
   apt-get update \
   && apt-get install -y --no-install-recommends \
-  iputils-ping=3:20221126-1 \
+  iputils-ping=3:20221126-1+deb12u1 \
   snmp=5.9.3+dfsg-2 \
   lm-sensors=1:3.6.0-7.1 \
   smartmontools=7.3-1+b1 \
-  ipmitool=1.8.19-4 \
+  ipmitool=1.8.19-4+deb12u2 \
   procps=2:4.0.2-3 \
   \
   && ARCH="${BUILD_ARCH}" \
@@ -24,7 +24,6 @@ RUN \
   \
   && curl -J -L -o /tmp/telegraf.deb \
   "https://dl.influxdata.com/telegraf/releases/telegraf_${TELEGRAF_VERSION}_${ARCH}.deb" \
-  \
   && dpkg --install /tmp/telegraf.deb \
   \
   && rm -fr \
