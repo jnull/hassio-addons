@@ -1,19 +1,14 @@
 image: "ghcr.io/jnull/{arch}-telegraf"
 build_from:
-  aarch64: "ghcr.io/hassio-addons/debian-base/aarch64:7.3.3"
-  amd64: "ghcr.io/hassio-addons/debian-base/amd64:7.3.3"
-  armv7: "ghcr.io/hassio-addons/debian-base/armv7:7.3.3"
-  i386: "ghcr.io/hassio-addons/debian-base/i386:7.3.3"
+  aarch64: "ghcr.io/home-assistant/aarch64-base:7.8.1"
+  amd64: "ghcr.io/home-assistant/amd64-base:7.8.1"
+  armhf: "ghcr.io/home-assistant/armhf-base:7.8.1"
+  armv7: "ghcr.io/home-assistant/armv7-base:7.8.1"
+  i386: "ghcr.io/home-assistant/i386-base:7.8.1"
 args:
   TELEGRAF_VERSION: 1.30.2-1
 labels:
-  io.hass.name: "Telegraf"
-  io.hass.description: "Telegraf open source data collector"
-  io.hass.arch:
-    - armhf
-    - armv7
-    - aarch64
-    - amd64
-    - i386
-  io.hass.type: "addon"
-  io.hass.version: 1.0.6
+  org.opencontainers.image.title: "Home Assistant Add-on: Telegraf add-on"
+  org.opencontainers.image.description: "Telegraf open source data collector"
+  org.opencontainers.image.source: "https://github.com/jnull/hassio-addons/tree/main/telegraf"
+  org.opencontainers.image.licenses: "MIT License"

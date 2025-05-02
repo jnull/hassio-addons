@@ -58,11 +58,10 @@ EXPOSE 8092/udp 8094 8125/udp 9273/tcp 25826/udp
 # Labels
 LABEL \
   maintainer="jnull <admin@jnull.org>" \
-  org.opencontainers.image.title="Telegraf" \
+  org.opencontainers.image.title="Home Assistant Add-on: Telegraf add-on" \
   org.opencontainers.image.description="Telegraf open source data collector" \
-  org.opencontainers.image.vendor="Home Assistant Community Add-ons" \
+  org.opencontainers.image.vendor="Home Assistant Add-ons by jnull" \
   org.opencontainers.image.authors="jnull <admin@jnull.org>" \
-  org.opencontainers.image.licenses="MIT" \
-  # org.opencontainers.image.url="https://addons.community" \
-  org.opencontainers.image.source="https://github.com/jnull/hassio-telegraf" \
-  org.opencontainers.image.documentation="https://github.com/jnull/hassio-telegraf/blob/main/README.md"
+  org.opencontainers.image.licenses="MIT License" \
+  org.opencontainers.image.source="https://github.com/jnull/hassio-addons/tree/main/telegraf" \
+  org.opencontainers.image.documentation="https://github.com/jnull/hassio-addons/tree/main/telegraf/README.md"
