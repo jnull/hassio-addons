@@ -1,4 +1,4 @@
-image: "ghcr.io/jnull/{arch}-telegraf"
+#image: "ghcr.io/jnull/{arch}-telegraf"
 build_from:
   aarch64: "ghcr.io/hassio-addons/debian-base/amd64:stable"
   amd64: "ghcr.io/hassio-addons/debian-base/amd64-base:stable"

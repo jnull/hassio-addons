@@ -14,11 +14,11 @@ init: false
 startup: services
 boot: manual
 hassio_api: true
-hassio_role: default
+#hassio_role: default
 auth_api: true
 docker_api: true
 host_network: true
-apparmor: true
+#apparmor: true
 map:
   - config:rw
   - ssl:rw
