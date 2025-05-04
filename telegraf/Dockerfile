@@ -63,5 +63,5 @@ LABEL \
   org.opencontainers.image.vendor="Home Assistant Add-ons by jnull" \
   org.opencontainers.image.authors="jnull <admin@jnull.org>" \
   org.opencontainers.image.licenses="MIT License" \
-  org.opencontainers.image.source="https://github.com/jnull/hassio-addons/tree/main/telegraf" \
+  org.opencontainers.image.source="https://github.com/jnull/hassio-addons" \
   org.opencontainers.image.documentation="https://github.com/jnull/hassio-addons/tree/main/telegraf/README.md"
