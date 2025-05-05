@@ -6,7 +6,7 @@ build_from:
   armv7: "ghcr.io/hassio-addons/debian-base/armv7:stable"
   i386: "ghcr.io/hassio-addons/debian-base/i386:stable"
 args:
-  TELEGRAF_VERSION: 1.30.2-1
+  TELEGRAF_VERSION: 1.34.2-1
 labels:
   org.opencontainers.image.title: "Home Assistant Add-on: Telegraf add-on"
   org.opencontainers.image.description: "Telegraf open source data collector"
