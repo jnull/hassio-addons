@@ -1,5 +1,5 @@
 name: Telegraf add-on
-version: "1.0.21"
+version: "1.0.22"
 slug: hassio_telegraf
 description: Telegraf open source data collector
 url: "https://github.com/jnull/hassio-addons/tree/main/telegraf"
@@ -31,7 +31,7 @@ full_access: true
 options:
   custom_conf:
     enabled: false
-    location: /share/telegraf.conf
+    location: /config/telegraf/telegraf.conf
   hostname: test
   influxDB:
     enabled: true

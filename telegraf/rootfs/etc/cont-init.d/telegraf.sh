@@ -38,7 +38,13 @@ COLLECTD_AUTH_FILE=$(bashio::config 'collectd.auth_file')
 COLLECTD_SECURITY_LEVEL=$(bashio::config 'collectd.security_level')
 COLLECTD_TYPES_DB=$(bashio::config 'collectd.types_db')
 
-if bashio::var.true "${CUSTOM_CONF_ENABLED}"; then
+mkdir -p /config/telegraf
+
+if [[ -f "/config/telegraf/telegraf.conf" ]]; then
+  bashio::log.info "Using custom conf file from /config path"
+  rm /etc/telegraf/telegraf.conf
+  cp /config/telegraf/telegraf.conf /etc/telegraf/telegraf.conf
+elif bashio::var.true "${CUSTOM_CONF_ENABLED}"; then
   bashio::log.info "Using custom conf file"
   rm /etc/telegraf/telegraf.conf
   cp "${CUSTOM_CONF}" /etc/telegraf/telegraf.conf

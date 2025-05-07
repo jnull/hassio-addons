@@ -1,4 +1,8 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 1.0.22
+
+- Added feature to load custom telegraf config from config path
+
 ## 1.0.21
 
 - Update to Telegraf version `1.34.2`
