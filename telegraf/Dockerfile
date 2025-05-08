@@ -13,10 +13,20 @@ RUN apk add --no-cache iputils ca-certificates net-snmp-tools procps lm_sensors 
   update-ca-certificates
 
 # Installing telegraf
-RUN ARCH="${BUILD_ARCH}" \
-  && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
-  && if [ "${BUILD_ARCH}" = "armv7" ]; then ARCH="armhf"; fi \
-  && if [ "${BUILD_ARCH}" = "armhf" ]; then ARCH="armel"; fi \
+# RUN ARCH="${BUILD_ARCH}" && \
+#   if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi && \
+#   if [ "${BUILD_ARCH}" = "armv7" ]; then ARCH="armhf"; fi && \
+#   if [ "${BUILD_ARCH}" = "armhf" ]; then ARCH="armel"; fi && \
+RUN ARCH= && \
+  case "${BUILD_ARCH}" in \
+  x86_64) ARCH='amd64';; \
+  amd64) ARCH='amd64';; \
+  aarch64) ARCH='arm64';; \
+  armhf) ARCH='armhf';; \
+  armv7) ARCH='armhf';; \
+  i386) ARCH='i386';; \
+  *) echo "Unsupported architecture: ${BUILD_ARCH}"; exit 1;; \
+  esac && \
   set -ex && \
   mkdir ~/.gnupg; \
   echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf; \
