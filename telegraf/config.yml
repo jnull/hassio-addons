@@ -123,8 +123,8 @@ schema:
     security_level: str
     types_db: str
 ports:
-  9273/tcp: 9273
   25826/udp: 25826
+  2055/udp: 2055
 ports_description:
-  9273/tcp: Prometheus Client
   25826/udp: Collectd Server
+  2055/udp: Netflow Server

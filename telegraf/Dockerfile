@@ -49,7 +49,7 @@ RUN ARCH= && \
 # Copy root filesystem
 COPY rootfs /
 
-EXPOSE 8092/udp 8094 8125/udp 9273/tcp 25826/udp
+EXPOSE 8092/udp 8094 8125/udp
 
 # # Labels
 # LABEL \

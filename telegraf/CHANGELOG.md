@@ -4,6 +4,7 @@
 - align versions to public telegraf releases
 - finished switching to alpine
 - reworked startup script
+- added Netflow support
 
 ## 1.0.23
 
