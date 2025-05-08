@@ -4,7 +4,7 @@ FROM ${BUILD_FROM}
 # # Set shell
 # SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Setup base system
+# Setup base env
 ARG BUILD_ARCH=amd64
 ARG TELEGRAF_VERSION="1.34.3"
 
@@ -12,6 +12,7 @@ RUN echo 'hosts: files dns' >> /etc/nsswitch.conf
 RUN apk add --no-cache iputils ca-certificates net-snmp-tools procps lm_sensors tzdata su-exec libcap && \
   update-ca-certificates
 
+# Installing telegraf
 RUN ARCH="${BUILD_ARCH}" \
   && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
   && if [ "${BUILD_ARCH}" = "armv7" ]; then ARCH="armhf"; fi \
