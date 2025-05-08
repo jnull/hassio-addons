@@ -12,11 +12,6 @@ RUN echo 'hosts: files dns' >> /etc/nsswitch.conf
 RUN apk add --no-cache iputils ca-certificates net-snmp-tools procps lm_sensors tzdata su-exec libcap && \
   update-ca-certificates
 
-# Installing telegraf
-# RUN ARCH="${BUILD_ARCH}" && \
-#   if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi && \
-#   if [ "${BUILD_ARCH}" = "armv7" ]; then ARCH="armhf"; fi && \
-#   if [ "${BUILD_ARCH}" = "armhf" ]; then ARCH="armel"; fi && \
 RUN ARCH= && \
   case "${BUILD_ARCH}" in \
   x86_64) ARCH='amd64';; \
@@ -53,7 +48,6 @@ RUN ARCH= && \
 
 # Copy root filesystem
 COPY rootfs /
-COPY entrypoint.sh /entrypoint.sh
 
 EXPOSE 8092/udp 8094 8125/udp 9273/tcp 25826/udp
 
@@ -67,6 +61,3 @@ EXPOSE 8092/udp 8094 8125/udp 9273/tcp 25826/udp
 #   org.opencontainers.image.licenses="MIT License" \
 #   org.opencontainers.image.source="https://github.com/jnull/hassio-addons" \
 #   org.opencontainers.image.documentation="https://github.com/jnull/hassio-addons/tree/main/telegraf/README.md"
-
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["telegraf"]
