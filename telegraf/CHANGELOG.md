@@ -1,4 +1,8 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 1.0.23
+
+- switching to alpine images as base to reduce image size and improve security
+
 ## 1.0.22
 
 - Added feature to load custom telegraf config from config path

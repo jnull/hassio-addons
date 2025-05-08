@@ -1,68 +1,61 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:7.8.1
-# hadolint ignore=DL3006
+ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.21
 FROM ${BUILD_FROM}
 
-# Set shell
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# # Set shell
+# SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup base system
 ARG BUILD_ARCH=amd64
-ARG TELEGRAF_VERSION="1.30.2-1"
-RUN \
-  apt-get update \
-  && apt-get install -y --no-install-recommends \
-  iputils-ping=3:20221126-1+deb12u1 \
-  snmp=5.9.3+dfsg-2 \
-  lm-sensors=1:3.6.0-7.1 \
-  smartmontools=7.3-1+b1 \
-  ipmitool=1.8.19-4+deb12u2 \
-  procps=2:4.0.2-3 \
-  \
-  && ARCH="${BUILD_ARCH}" \
+ARG TELEGRAF_VERSION="1.34.3"
+
+RUN echo 'hosts: files dns' >> /etc/nsswitch.conf
+RUN apk add --no-cache iputils ca-certificates net-snmp-tools procps lm_sensors tzdata su-exec libcap && \
+  update-ca-certificates
+
+RUN ARCH="${BUILD_ARCH}" \
   && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
   && if [ "${BUILD_ARCH}" = "armv7" ]; then ARCH="armhf"; fi \
   && if [ "${BUILD_ARCH}" = "armhf" ]; then ARCH="armel"; fi \
-  \
-  && curl -J -L -o /tmp/telegraf.deb \
-  "https://dl.influxdata.com/telegraf/releases/telegraf_${TELEGRAF_VERSION}_${ARCH}.deb" \
-  && dpkg --install /tmp/telegraf.deb \
-  \
-  && rm -fr \
-  /tmp/* \
-  /var/{cache,log}/* \
-  /var/lib/apt/lists/*
-
+  set -ex && \
+  mkdir ~/.gnupg; \
+  echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf; \
+  apk add --no-cache --virtual .build-deps wget gnupg tar && \
+  for key in \
+  9D539D90D3328DC7D6C8D3B9D8FF8E1F7DF8B07E ; \
+  do \
+  gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "$key" ; \
+  done && \
+  wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz.asc && \
+  wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz && \
+  gpg --batch --verify telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz.asc telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz && \
+  mkdir -p /usr/src /etc/telegraf && \
+  tar -C /usr/src -xzf telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz && \
+  mv /usr/src/telegraf*/etc/telegraf/telegraf.conf /etc/telegraf/ && \
+  mkdir /etc/telegraf/telegraf.d && \
+  cp -a /usr/src/telegraf*/usr/bin/telegraf /usr/bin/ && \
+  gpgconf --kill all && \
+  rm -rf *.tar.gz* /usr/src /root/.gnupg && \
+  apk del .build-deps && \
+  addgroup -S telegraf && \
+  adduser -S telegraf -G telegraf && \
+  chown -R telegraf:telegraf /etc/telegraf
 
 # Copy root filesystem
 COPY rootfs /
-
-# RUN chown root /etc/cont-init.d/telegraf.sh
-# RUN chown root /etc/telegraf/telegraf.conf
-# RUN chown root /etc/services.d/telegraf/run
-# RUN chown root /etc/services.d/telegraf/finish
-# RUN chmod 775 /etc/cont-init.d/telegraf.sh
-# RUN chmod 775 /etc/telegraf/telegraf.conf
-# RUN chmod 775 /etc/services.d/telegraf/run
-# RUN chmod 775 /etc/services.d/telegraf/finish
+COPY entrypoint.sh /entrypoint.sh
 
 EXPOSE 8092/udp 8094 8125/udp 9273/tcp 25826/udp
 
-# Build arguments
-# ARG BUILD_ARCH
-# ARG BUILD_DATE
-# ARG BUILD_DESCRIPTION
-# ARG BUILD_NAME
-# ARG BUILD_REF
-# ARG BUILD_REPOSITORY
-# ARG BUILD_VERSION
+# # Labels
+# LABEL \
+#   maintainer="jnull <admin@jnull.org>" \
+#   org.opencontainers.image.title="Home Assistant Add-on: Telegraf add-on" \
+#   org.opencontainers.image.description="Telegraf open source data collector" \
+#   org.opencontainers.image.vendor="Home Assistant Add-ons by jnull" \
+#   org.opencontainers.image.authors="jnull <admin@jnull.org>" \
+#   org.opencontainers.image.licenses="MIT License" \
+#   org.opencontainers.image.source="https://github.com/jnull/hassio-addons" \
+#   org.opencontainers.image.documentation="https://github.com/jnull/hassio-addons/tree/main/telegraf/README.md"
 
-# Labels
-LABEL \
-  maintainer="jnull <admin@jnull.org>" \
-  org.opencontainers.image.title="Home Assistant Add-on: Telegraf add-on" \
-  org.opencontainers.image.description="Telegraf open source data collector" \
-  org.opencontainers.image.vendor="Home Assistant Add-ons by jnull" \
-  org.opencontainers.image.authors="jnull <admin@jnull.org>" \
-  org.opencontainers.image.licenses="MIT License" \
-  org.opencontainers.image.source="https://github.com/jnull/hassio-addons" \
-  org.opencontainers.image.documentation="https://github.com/jnull/hassio-addons/tree/main/telegraf/README.md"
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["telegraf"]
