@@ -1,4 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 1.34.3
+
+- align versions to public telegraf releases
+- finished switching to alpine
+- reworked startup script
+
 ## 1.0.23
 
 - switching to alpine images as base to reduce image size and improve security

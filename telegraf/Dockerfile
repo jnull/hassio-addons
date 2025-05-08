@@ -6,7 +6,7 @@ FROM ${BUILD_FROM}
 
 # Setup base env
 ARG BUILD_ARCH=amd64
-ARG TELEGRAF_VERSION="1.34.3"
+ARG BUILD_VERSION="1.34.3"
 
 RUN echo 'hosts: files dns' >> /etc/nsswitch.conf
 RUN apk add --no-cache iputils ca-certificates net-snmp-tools procps lm_sensors tzdata su-exec libcap && \
@@ -31,11 +31,11 @@ RUN ARCH= && \
   do \
   gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys "$key" ; \
   done && \
-  wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz.asc && \
-  wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz && \
-  gpg --batch --verify telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz.asc telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz && \
+  wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf-${BUILD_VERSION}_linux_${ARCH}.tar.gz.asc && \
+  wget --no-verbose https://dl.influxdata.com/telegraf/releases/telegraf-${BUILD_VERSION}_linux_${ARCH}.tar.gz && \
+  gpg --batch --verify telegraf-${BUILD_VERSION}_linux_${ARCH}.tar.gz.asc telegraf-${BUILD_VERSION}_linux_${ARCH}.tar.gz && \
   mkdir -p /usr/src /etc/telegraf && \
-  tar -C /usr/src -xzf telegraf-${TELEGRAF_VERSION}_linux_${ARCH}.tar.gz && \
+  tar -C /usr/src -xzf telegraf-${BUILD_VERSION}_linux_${ARCH}.tar.gz && \
   mv /usr/src/telegraf*/etc/telegraf/telegraf.conf /etc/telegraf/ && \
   mkdir /etc/telegraf/telegraf.d && \
   cp -a /usr/src/telegraf*/usr/bin/telegraf /usr/bin/ && \

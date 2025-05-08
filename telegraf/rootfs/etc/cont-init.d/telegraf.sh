@@ -61,6 +61,7 @@ else
     echo "[agent]"
     echo "  interval = \"10s\""
     echo "  round_interval = true"
+    echo "  skip_processors_after_aggregators = true"
     echo "  metric_batch_size = 1000"
     echo "  metric_buffer_limit = 10000"
     echo "  collection_jitter = \"0s\""
