@@ -1,9 +1,6 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.21
 FROM ${BUILD_FROM}
 
-# # Set shell
-# SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
 # Setup base env
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION="1.34.3"
@@ -50,14 +47,3 @@ RUN ARCH= && \
 COPY rootfs /
 
 EXPOSE 8092/udp 8094 8125/udp
-
-# # Labels
-# LABEL \
-#   maintainer="jnull <admin@jnull.org>" \
-#   org.opencontainers.image.title="Home Assistant Add-on: Telegraf add-on" \
-#   org.opencontainers.image.description="Telegraf open source data collector" \
-#   org.opencontainers.image.vendor="Home Assistant Add-ons by jnull" \
-#   org.opencontainers.image.authors="jnull <admin@jnull.org>" \
-#   org.opencontainers.image.licenses="MIT License" \
-#   org.opencontainers.image.source="https://github.com/jnull/hassio-addons" \
-#   org.opencontainers.image.documentation="https://github.com/jnull/hassio-addons/tree/main/telegraf/README.md"

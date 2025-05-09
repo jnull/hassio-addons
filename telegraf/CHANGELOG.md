@@ -4,7 +4,11 @@
 - align versions to public telegraf releases
 - finished switching to alpine
 - reworked startup script
-- added Netflow support
+- removed ports from configuration
+  - ports can be defined through configs
+  - enabled host-network to pass ports without configuration on hassio
+- re-vamped container configuration
+- in config/telegraf configuration can be passed
 
 ## 1.0.23
 

@@ -1,4 +1,40 @@
 configuration:
-  message:
-    name: Message
-    description: The message that will be printed to the log when starting telegraf add-on.
+  hostname:
+    name: Set Hostname
+    description: Set an alternative hostname for the telegraf instance.
+  influxDB:
+    name: Enable InfluxDB
+    description: Enable and set connection config to InfluxDB
+  influxDBv2:
+    name: Enable InfluxDBv2
+    description: Enable and set connection config to InfluxDBv2
+  interval:
+    name: Set Agent Interval
+    description: Default data collection interval for all inputs
+  round-interval:
+    name: Rounds collection interval
+    description:  Rounds collection interval to interval. For example, if interval is set to 10s, then the agent collects on :00, :10, :20, etc.
+  skip-processor-after-aggregation:
+    name: Set Agent skip_processors_after_aggregators var
+    description: If true, processors do not run again after aggregators. Default is false.
+  metric-batch-size:
+    name: Sends metrics to the output in batches
+    description: Sends metrics to the output in batches of at most metric_batch_size metrics.
+  metric-buffer-limit:
+    name: Set caches metric_buffer_limit metrics
+    description: Caches metric_buffer_limit metrics for each output, and flushes this buffer on a successful write. This should be a multiple of metric_batch_size and could not be less than 2 times metric_batch_size.
+  collection-jitter:
+    name: Used to jitter the collection by a random amount
+    description: Used to jitter the collection by a random amount. Each plugin sleeps for a random time within jitter before collecting. This can be used to avoid many plugins querying things like sysfs at the same time, which can have a measurable effect on the system.
+  flush-interval:
+    name: Sets default data flushing interval for all outputs
+    description: Default data flushing interval for all outputs. Don’t set this below interval. Maximum flush_interval is flush_interval + flush_jitter
+  flush-jitter:
+    name: Jitter the flush interval by a random amount
+    description: Jitter the flush interval by a random amount. This is primarily to avoid large write spikes for users running a large number of Telegraf instances. For example, a flush_jitter of 5s and flush_interval of 10s means flushes happen every 10-15s.
+  precision:
+    name: Collected metrics are rounded
+    description: "Collected metrics are rounded to the precision specified as an interval (integer + unit, ex: 1ns, 1us, 1ms, and 1s . Precision isn’t used for service inputs, such as logparser and statsd."
+  debug:
+    name: Enable Debug mode
+    description: Run Telegraf in debug mode.
