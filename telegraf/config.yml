@@ -31,13 +31,13 @@ full_access: true
 options:
   hostname: 94ee2189_hassio_telegraf
   interval: "10s"
-  round-interval: true
-  skip-processor-after-aggregation: true
-  metric-batch-size: 1000
-  metric-buffer-limit: 10000
-  collection-jitter: "0s"
-  flush-interval: "10s"
-  flush-jitter: "0s"
+  round_interval: true
+  skip_processor_after_aggregation: true
+  metric_batch_size: 1000
+  metric_buffer_limit: 10000
+  collection_jitter: "0s"
+  flush_interval: "10s"
+  flush_jitter: "0s"
   precision: "1ms"
   debug: false
   influxDB:
@@ -56,13 +56,13 @@ options:
 schema:
   hostname: str
   interval: str
-  round-interval: bool
-  skip-processor-after-aggregation: bool
-  metric-batch-size: int
-  metric-buffer-limit: int
-  collection-jitter: str
-  flush-interval: str
-  flush-jitter: str
+  round_interval: bool
+  skip_processor_after_aggregation: bool
+  metric_batch_size: int
+  metric_buffer_limit: int
+  collection_jitter: str
+  flush_interval: str
+  flush_jitter: str
   precision: str?
   debug: bool
   influxDB:
