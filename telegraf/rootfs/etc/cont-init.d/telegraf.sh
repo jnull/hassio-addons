@@ -131,9 +131,9 @@ fi
   echo -e "\t${debug}"
   echo -e "\t${hostname}"
   echo -e "\tomit_hostname = false"
-} >> $CONFIG
+} >> $GLOBAL_CONFIG
 
-sed -i "s,HOSTNAME,${HOSTNAME},g" $CONFIG
+sed -i "s,HOSTNAME,${HOSTNAME},g" $GLOBAL_CONFIG
 
 if bashio::config.true 'influxDB.enabled'; then
   if bashio::var.has_value "${INFLUX_UN}"; then

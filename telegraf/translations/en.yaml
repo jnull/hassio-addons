@@ -33,7 +33,7 @@ configuration:
     name: Jitter the flush interval by a random amount
     description: Jitter the flush interval by a random amount. This is primarily to avoid large write spikes for users running a large number of Telegraf instances. For example, a flush_jitter of 5s and flush_interval of 10s means flushes happen every 10-15s.
   precision:
-    name: Collected metrics are rounded
+    name: Collected metrics are rounded to the precision specified
     description: "Collected metrics are rounded to the precision specified as an interval (integer + unit, ex: 1ns, 1us, 1ms, and 1s . Precision isn’t used for service inputs, such as logparser and statsd."
   debug:
     name: Enable Debug mode
