@@ -12,6 +12,7 @@ declare hostname
 #bashio::require.unprotected
 
 mkdir -p /config/telegraf
+rm -rf /etc/telegraf/telegraf.conf
 touch /etc/telegraf/telegraf.conf
 readonly GLOBAL_CONFIG="/etc/telegraf/telegraf.conf"
 
