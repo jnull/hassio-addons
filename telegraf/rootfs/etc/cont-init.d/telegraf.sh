@@ -64,13 +64,13 @@ else
   interval="interval = '10s'"
 fi
 
-if bashio::var.has_value "${ROUND_INTERVAL_AGENT}"; then
+if bashio::var.false "${ROUND_INTERVAL_AGENT}"; then
   round_interval="round_interval = ${ROUND_INTERVAL_AGENT}"
 else
   round_interval="round_interval = true"
 fi
 
-if bashio::var.has_value "${SKIP_PROCESSOR_AFTER_AGGREGATORS_AGENT}"; then
+if bashio::var.false "${SKIP_PROCESSOR_AFTER_AGGREGATORS_AGENT}"; then
   skip_processors_after_aggregators="skip_processors_after_aggregators = ${SKIP_PROCESSOR_AFTER_AGGREGATORS_AGENT}"
 else
   skip_processors_after_aggregators="skip_processors_after_aggregators = true"
@@ -106,7 +106,7 @@ else
   precision="precision = ''"
 fi
 
-if bashio::var.has_value "${DEBUG_AGENT}"; then
+if bashio::var.true "${DEBUG_AGENT}"; then
   debug="debug = ${DEBUG_AGENT}"
 else
   debug="debug = false"
