@@ -12,24 +12,21 @@ declare hostname
 #bashio::require.unprotected
 
 mkdir -p /config/telegraf
-touch /config/telegraf/influxdb.conf
-touch /config/telegraf/influxdbv2.conf
 touch /etc/telegraf/telegraf.conf
 readonly GLOBAL_CONFIG="/etc/telegraf/telegraf.conf"
-readonly INFLUXDB_CONFIG="/config/telegraf/influxdb.conf"
-readonly INFLUXDBV2_CONFIG="/config/telegraf/influxdbv2.conf"
+
 
 HOSTNAME=$(bashio::config 'hostname')
-INTERVAL_AGENT=$(bashio::config 'influxDB.url')
-ROUND_INTERVAL_AGENT=$(bashio::config 'influxDB.url')
-SKIP_PROCESSOR_AFTER_AGGREGATORS_AGENT=$(bashio::config 'influxDB.url')
-METRIC_BATCH_SIZE_AGENT=$(bashio::config 'influxDB.url')
-METRIC_BUFFER_LIMIT_AGENT=$(bashio::config 'influxDB.url')
-COLLECTION_JITTER_AGENT=$(bashio::config 'influxDB.url')
-FLUSH_INTERVAL_AGENT=$(bashio::config 'influxDB.url')
-FLUSH_JITTER_AGENT=$(bashio::config 'influxDB.url')
-PRECISION_AGENT=$(bashio::config 'influxDB.url')
-DEBUG_AGENT=$(bashio::config 'influxDB.url')
+INTERVAL_AGENT=$(bashio::config 'interval')
+ROUND_INTERVAL_AGENT=$(bashio::config 'round-interval')
+SKIP_PROCESSOR_AFTER_AGGREGATORS_AGENT=$(bashio::config 'skip-processor-after-aggregation')
+METRIC_BATCH_SIZE_AGENT=$(bashio::config 'metric-batch-size')
+METRIC_BUFFER_LIMIT_AGENT=$(bashio::config 'metric-buffer-limit')
+COLLECTION_JITTER_AGENT=$(bashio::config 'collection-jitter')
+FLUSH_INTERVAL_AGENT=$(bashio::config 'flush-interval')
+FLUSH_JITTER_AGENT=$(bashio::config 'flush-jitter')
+PRECISION_AGENT=$(bashio::config 'precision')
+DEBUG_AGENT=$(bashio::config 'debug')
 
   
 
@@ -131,6 +128,8 @@ fi
   echo -e "\t${debug}"
   echo -e "\t${hostname}"
   echo -e "\tomit_hostname = false"
+  echo -e "\n"
+  echo -e "[[inputs.internal]]"
 } >> $GLOBAL_CONFIG
 
 sed -i "s,HOSTNAME,${HOSTNAME},g" $GLOBAL_CONFIG
@@ -162,17 +161,17 @@ if bashio::config.true 'influxDB.enabled'; then
     echo -e "\ttimeout = '5s'"
     echo -e "\t${influx_un}"
     echo -e "\t${influx_pw}"
-  } >> $INFLUXDB_CONFIG
+  } >> $GLOBAL_CONFIG
 
-  sed -i "s,http://a0d7b954-influxdb:8086,${INFLUX_SERVER},g" $INFLUXDB_CONFIG
+  sed -i "s,http://a0d7b954-influxdb:8086,${INFLUX_SERVER},g" $GLOBAL_CONFIG
 
-  sed -i "s,TELEGRAF_DB,${INFLUX_DB},g" $INFLUXDB_CONFIG
+  sed -i "s,TELEGRAF_DB,${INFLUX_DB},g" $GLOBAL_CONFIG
 
-  sed -i "s,INFLUX_UN,${INFLUX_UN},g" $INFLUXDB_CONFIG
+  sed -i "s,INFLUX_UN,${INFLUX_UN},g" $GLOBAL_CONFIG
 
-  sed -i "s,INFLUX_PW,${INFLUX_PW},g" $INFLUXDB_CONFIG
+  sed -i "s,INFLUX_PW,${INFLUX_PW},g" $GLOBAL_CONFIG
 
-  sed -i "s,RETENTION,${RETENTION},g" $INFLUXDB_CONFIG
+  sed -i "s,RETENTION,${RETENTION},g" $GLOBAL_CONFIG
 
 fi
 
@@ -184,12 +183,12 @@ if bashio::config.true 'influxDBv2.enabled'; then
     echo -e "\ttoken = 'INFLUX_TOKEN'"
     echo -e "\torganization = 'INFLUX_ORG'"
     echo -e "\tbucket = 'INFLUX_BUCKET'"
-  } >> $INFLUXDBV2_CONFIG
+  } >> $GLOBAL_CONFIG
 
-  sed -i "s,INFLUXv2_URL,${INFLUXDBV2_URL},g" $INFLUXDBV2_CONFIG
-  sed -i "s,INFLUX_TOKEN,${INFLUXDBV2_TOKEN},g" $INFLUXDBV2_CONFIG
-  sed -i "s,INFLUX_ORG,${INFLUXDBV2_ORG},g" $INFLUXDBV2_CONFIG
-  sed -i "s,INFLUX_BUCKET,${INFLUXDBV2_BUCKET},g" $INFLUXDBV2_CONFIG
+  sed -i "s,INFLUXv2_URL,${INFLUXDBV2_URL},g" $GLOBAL_CONFIG
+  sed -i "s,INFLUX_TOKEN,${INFLUXDBV2_TOKEN},g" $GLOBAL_CONFIG
+  sed -i "s,INFLUX_ORG,${INFLUXDBV2_ORG},g" $GLOBAL_CONFIG
+  sed -i "s,INFLUX_BUCKET,${INFLUXDBV2_BUCKET},g" $GLOBAL_CONFIG
 fi
 
 bashio::log.info "Finished updating config"

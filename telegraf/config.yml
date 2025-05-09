@@ -38,7 +38,7 @@ options:
   collection-jitter: "0s"
   flush-interval: "10s"
   flush-jitter: "0s"
-  precision: ""
+  precision: "1ms"
   debug: false
   influxDB:
     enabled: true
