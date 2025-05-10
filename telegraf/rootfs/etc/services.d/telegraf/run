@@ -12,14 +12,14 @@ bashio::log.info 'Starting Telegraf...'
 set -e
 
 if [ "${1:0:1}" = '-' ]; then
-    set -- telegraf "$@" --config-directory "/config/telegraf"
+    set -- telegraf "$@" --config "/etc/telegraf/telegraf.conf" --config-directory "/config/telegraf"
 fi
 
 if [ "$(id -u)" -ne 0 ]; then
-    exec "$@" --config-directory "/config/telegraf"
+    exec "$@" --config "/etc/telegraf/telegraf.conf" --config-directory "/config/telegraf"
 else
     # Allow telegraf to send ICMP packets and bind to privliged ports
     setcap cap_net_raw,cap_net_bind_service+ep /usr/bin/telegraf || echo "Failed to set additional capabilities on /usr/bin/telegraf"
 
-    exec su-exec telegraf "$@" --config-directory "/config/telegraf"
+    exec su-exec telegraf "$@" --config "/etc/telegraf/telegraf.conf" --config-directory "/config/telegraf"
 fi
