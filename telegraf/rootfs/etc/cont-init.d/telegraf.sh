@@ -14,13 +14,10 @@ declare hostname
 mkdir -p /config/telegraf
 rm -rf /etc/telegraf/telegraf.conf
 touch /etc/telegraf/telegraf.conf
-touch /config/telegraf/agent.conf
-touch /config/telegraf/influxdb.conf
-touch /config/telegraf/influxdbv2.conf
 readonly GLOBAL_CONFIG="/etc/telegraf/telegraf.conf"
 readonly AGENT_CONFIG="/config/telegraf/agent.conf"
-readonly GLOBAL_INFLUXDB_CONFIG="/config/telegraf/influxdb.conf"
-readonly GLOBAL_INFLUXDBV2_CONFIG="/config/telegraf/influxdbv2.conf"
+readonly INFLUXDB_CONFIG="/config/telegraf/influxdb.conf"
+readonly INFLUXDBV2_CONFIG="/config/telegraf/influxdbv2.conf"
 
 
 HOSTNAME=$(bashio::config 'hostname')
@@ -125,9 +122,10 @@ fi
   echo -e "[[inputs.internal]]"
 } >> $GLOBAL_CONFIG
 
-if [[ -f "/config/telegraf/agent.conf" ]]; then
+if [[ -f $AGENT_CONFIG ]]; then
     bashio::log.info "agent.conf found in /config/telegraf/, skipping setting values from configuration page"
 else
+  touch $AGENT_CONFIG
   {
     echo -e "[agent]"
     echo -e "\t${interval}"
@@ -148,9 +146,10 @@ else
 fi
 
 if bashio::config.true 'influxDB.enabled'; then
-  if [[ -f "/config/telegraf/influxdb.conf" ]]; then
+  if [[ -f $INFLUXDB_CONFIG ]]; then
     bashio::log.info "influxdb.conf found in /config/telegraf/, skipping setting values from configuration page"
   else
+    touch $INFLUXDB_CONFIG
     if bashio::var.has_value "${INFLUX_UN}"; then
       influx_un="username='INFLUX_UN'"
     else
@@ -177,38 +176,39 @@ if bashio::config.true 'influxDB.enabled'; then
       echo -e "\ttimeout = '5s'"
       echo -e "\t${influx_un}"
       echo -e "\t${influx_pw}"
-    } >> $GLOBAL_INFLUXDB_CONFIG
+    } >> $INFLUXDB_CONFIG
 
-    sed -i "s,http://a0d7b954-influxdb:8086,${INFLUX_SERVER},g" $GLOBAL_INFLUXDB_CONFIG
+    sed -i "s,http://a0d7b954-influxdb:8086,${INFLUX_SERVER},g" $INFLUXDB_CONFIG
 
-    sed -i "s,TELEGRAF_DB,${INFLUX_DB},g" $GLOBAL_INFLUXDB_CONFIG
+    sed -i "s,TELEGRAF_DB,${INFLUX_DB},g" $INFLUXDB_CONFIG
 
-    sed -i "s,INFLUX_UN,${INFLUX_UN},g" $GLOBAL_INFLUXDB_CONFIG
+    sed -i "s,INFLUX_UN,${INFLUX_UN},g" $INFLUXDB_CONFIG
 
-    sed -i "s,INFLUX_PW,${INFLUX_PW},g" $GLOBAL_INFLUXDB_CONFIG
+    sed -i "s,INFLUX_PW,${INFLUX_PW},g" $INFLUXDB_CONFIG
 
-    sed -i "s,RETENTION,${RETENTION},g" $GLOBAL_INFLUXDB_CONFIG
+    sed -i "s,RETENTION,${RETENTION},g" $INFLUXDB_CONFIG
 
   fi
 fi
 
 if bashio::config.true 'influxDBv2.enabled'; then
   bashio::log.info "Updating config for influxdbv2"
-  if [[ -f "/config/telegraf/influxdbv2.conf" ]]; then
+  if [[ -f $INFLUXDBV2_CONFIG ]]; then
     bashio::log.info "influxdbv2.conf found in /config/telegraf/, skipping setting values from configuration page"
   else
+    touch $INFLUXDBV2_CONFIG
     {
       echo -e "[[outputs.influxdb_v2]]"
       echo -e "\turls = [\"INFLUXv2_URL\"]"
       echo -e "\ttoken = 'INFLUX_TOKEN'"
       echo -e "\torganization = 'INFLUX_ORG'"
       echo -e "\tbucket = 'INFLUX_BUCKET'"
-    } >> $GLOBAL_INFLUXDBV2_CONFIG
+    } >> $INFLUXDBV2_CONFIG
 
-    sed -i "s,INFLUXv2_URL,${INFLUXDBV2_URL},g" $GLOBAL_INFLUXDBV2_CONFIG
-    sed -i "s,INFLUX_TOKEN,${INFLUXDBV2_TOKEN},g" $GLOBAL_INFLUXDBV2_CONFIG
-    sed -i "s,INFLUX_ORG,${INFLUXDBV2_ORG},g" $GLOBAL_INFLUXDBV2_CONFIG
-    sed -i "s,INFLUX_BUCKET,${INFLUXDBV2_BUCKET},g" $GLOBAL_INFLUXDBV2_CONFIG
+    sed -i "s,INFLUXv2_URL,${INFLUXDBV2_URL},g" $INFLUXDBV2_CONFIG
+    sed -i "s,INFLUX_TOKEN,${INFLUXDBV2_TOKEN},g" $INFLUXDBV2_CONFIG
+    sed -i "s,INFLUX_ORG,${INFLUXDBV2_ORG},g" $INFLUXDBV2_CONFIG
+    sed -i "s,INFLUX_BUCKET,${INFLUXDBV2_BUCKET},g" $INFLUXDBV2_CONFIG
   fi
 fi
 
